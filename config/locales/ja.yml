@@ -1,0 +1,56 @@
+# plugins/redmine_pinned_issues/config/locales/ja.yml
+
+ja:
+  project_module_pinned_issues_module: チケットのピン留め
+  permission_pin_issues: チケットをピン留め
+
+  label_pin_issue: このチケットをピン留め
+  label_unpin_issue: ピン留めを解除
+  label_pinned_issue: ピン留め中
+
+  label_pin_expiration: ピン留め期間
+  label_pin_30_min: 30分
+  label_pin_1_hour: 1時間
+  label_pin_4_hour: 4時間
+  label_pin_8_hour: 8時間
+  label_pin_1_day: 1日
+  label_pin_3_day: 3日
+  label_pin_1_week: 1週間
+  label_pin_1_month: 1ヶ月
+  label_pin_no_expiration: 無期限
+
+  notice_issue_pinned: チケットをピン留めしました。
+  notice_issue_unpinned: ピン留めを解除しました。
+
+  label_pinned_color_odd: ピン留め行の背景色（奇数）
+  label_pinned_color_even: ピン留め行の背景色（偶数）
+  label_pinned_icon_color: ピン留めアイコンの色
+  button_reset_default: デフォルトに戻す
+
+  rake_pinned_issues:
+    no_expired: 期限切れのピン留めはありません。
+    cleanup_count: "%{count} 件の期限切れピン留めを削除します..."
+    cleanup_done: 完了しました。
+    status_header: ===== ピン留め状況 =====
+    status_total: "合計     : %{count} 件"
+    status_active: "有効中   : %{count} 件"
+    status_expired: "期限切れ : %{count} 件"
+    no_active: 有効中のピン留めはありません。
+    list_header: ===== 有効中のピン留め一覧 =====
+    list_no_expiration: 無期限
+    list_unknown_project: (プロジェクト不明)
+    list_unknown_issue: (チケット不明)
+    list_unknown_user: (ユーザー不明)
+    list_entry: "  期限: %{expires} / 設定者: %{user}"
+    help_header: "===== redmine_pinned_issues 利用可能タスク ====="
+    help_desc_cleanup: "期限切れのピン留めレコードをDBから削除します。cron等で定期実行することを推奨します。"
+    help_desc_status: "現在のピン留め状況（有効/期限切れ/合計件数）を表示します。"
+    help_desc_list: "有効中のピン留め一覧を表示します。"
+    help_desc_help: "このヘルプを表示します。"
+    help_usage_label: "使い方:"
+    help_cron_label: "cron設定例 (毎日3:00に期限切れ削除):"
+
+  rake_desc_cleanup: 期限切れのピン留めレコードをDBから削除する
+  rake_desc_status: 現在のピン留め状況を表示する (有効/期限切れ/合計)
+  rake_desc_list: 有効中のピン留めチケット一覧を表示する
+  rake_desc_help: このプラグインで利用可能なタスク一覧を表示する

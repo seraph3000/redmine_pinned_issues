@@ -1,0 +1,56 @@
+# plugins/redmine_pinned_issues/config/locales/en.yml
+
+en:
+  project_module_pinned_issues_module: Pin Issues
+  permission_pin_issues: Pin issues
+
+  label_pin_issue: Pin this issue
+  label_unpin_issue: Unpin issue
+  label_pinned_issue: Pinned
+
+  label_pin_expiration: Pin duration
+  label_pin_30_min: 30 minutes
+  label_pin_1_hour: 1 hour
+  label_pin_4_hour: 4 hours
+  label_pin_8_hour: 8 hours
+  label_pin_1_day: 1 day
+  label_pin_3_day: 3 days
+  label_pin_1_week: 1 week
+  label_pin_1_month: 1 month
+  label_pin_no_expiration: No expiration
+
+  notice_issue_pinned: Issue has been pinned.
+  notice_issue_unpinned: Issue has been unpinned.
+
+  label_pinned_color_odd: Pinned row background color (odd)
+  label_pinned_color_even: Pinned row background color (even)
+  label_pinned_icon_color: Pinned icon color
+  button_reset_default: Reset to default
+
+  rake_pinned_issues:
+    no_expired: No expired pinned issues.
+    cleanup_count: "Deleting %{count} expired pinned issue(s)..."
+    cleanup_done: Done.
+    status_header: ===== Pinned Issues Status =====
+    status_total: "Total    : %{count}"
+    status_active: "Active   : %{count}"
+    status_expired: "Expired  : %{count}"
+    no_active: No active pinned issues.
+    list_header: ===== Active Pinned Issues =====
+    list_no_expiration: No expiration
+    list_unknown_project: (Unknown project)
+    list_unknown_issue: (Unknown issue)
+    list_unknown_user: (Unknown user)
+    list_entry: "  Expires: %{expires} / Set by: %{user}"
+    help_header: "===== redmine_pinned_issues Available Tasks ====="
+    help_desc_cleanup: "Deletes expired pinned issue records from the DB. Recommended to run periodically via cron."
+    help_desc_status: "Shows current pinned issues status (active/expired/total)."
+    help_desc_list: "Lists all active pinned issues."
+    help_desc_help: "Shows this help."
+    help_usage_label: "Usage:"
+    help_cron_label: "Cron example (cleanup at 3:00 daily):"
+
+  rake_desc_cleanup: Delete expired pinned issue records from DB
+  rake_desc_status: Show current pinned issues status (active/expired/total)
+  rake_desc_list: List active pinned issues
+  rake_desc_help: Show available tasks for this plugin

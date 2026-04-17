@@ -1,0 +1,20 @@
+<%
+  default_odd = RedminePinnedIssues::DEFAULT_COLORS['pinned_color_odd']
+  default_even = RedminePinnedIssues::DEFAULT_COLORS['pinned_color_even']
+%>
+
+<div class="box tabular">
+  <p>
+    <label><%= l(:label_pinned_color_odd) %></label>
+    <input type="color" id="color_picker_odd" value="<%= settings['pinned_color_odd'] %>" oninput="document.getElementById('settings_pinned_color_odd').value = this.value">
+    <input type="text" name="settings[pinned_color_odd]" id="settings_pinned_color_odd" value="<%= settings['pinned_color_odd'] %>" size="10" oninput="document.getElementById('color_picker_odd').value = this.value">
+    <a href="#" class="icon icon-reload" onclick="document.getElementById('settings_pinned_color_odd').value = '<%= default_odd %>'; document.getElementById('color_picker_odd').value = '<%= default_odd %>'; return false;"><%= l(:button_reset_default) %></a>
+  </p>
+
+  <p>
+    <label><%= l(:label_pinned_color_even) %></label>
+    <input type="color" id="color_picker_even" value="<%= settings['pinned_color_even'] %>" oninput="document.getElementById('settings_pinned_color_even').value = this.value">
+    <input type="text" name="settings[pinned_color_even]" id="settings_pinned_color_even" value="<%= settings['pinned_color_even'] %>" size="10" oninput="document.getElementById('color_picker_even').value = this.value">
+    <a href="#" class="icon icon-reload" onclick="document.getElementById('settings_pinned_color_even').value = '<%= default_even %>'; document.getElementById('color_picker_even').value = '<%= default_even %>'; return false;"><%= l(:button_reset_default) %></a>
+  </p>
+</div>
