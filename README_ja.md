@@ -31,10 +31,11 @@
 
 ## インストール手順
 
-1. Redmineの `plugins` ディレクトリに、この `redmine_pinned_issues` ディレクトリを丸ごとコピーします。
+1. Redmineのpluginsディレクトリに移動してclone します
 
    ```bash
-   cp -r /path/to/redmine_pinned_issues /path/to/redmine/plugins/
+   cd /path/to/redmine/plugins
+   git clone https://github.com/seraph3000/redmine_pinned_issues.git
    ```
 2. Redmineのルートディレクトリに移動し、以下のコマンドを実行してデータベースのマイグレーションを行います。
 

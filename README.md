@@ -31,10 +31,11 @@ Supports expiration periods, role-based permissions, and per-project module acti
 
 ## Installation
 
-1. Copy the `redmine_pinned_issues` directory into your Redmine `plugins` directory:
+1. Clone into Redmine's plugins directory
 
    ```bash
-   cp -r /path/to/redmine_pinned_issues /path/to/redmine/plugins/
+   cd /path/to/redmine/plugins
+   git clone https://github.com/seraph3000/redmine_pinned_issues.git
    ```
 2. Navigate to your Redmine root directory and run the database migration:
 
