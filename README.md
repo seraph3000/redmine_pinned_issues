@@ -117,7 +117,7 @@ bundle exec rake redmine:pinned_issues:cleanup RAILS_ENV=production
 
 ### Automatic cleanup (recommended)
 
-Expired pins are automatically hidden from display, but the records remain in the database. To periodically purge them physically, register the following in cron:
+Expired pins are automatically removed and the issue returns to its normal position in the sort order, but the records remain in the database.
 
 ```cron
 # Delete expired pins at 3:00 AM every day
