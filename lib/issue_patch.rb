@@ -14,8 +14,9 @@ module IssuePatch
   end
 
   def css_classes(user=User.current)
-    # 無条件で 'patch-alive-test' というクラスをねじ込む
-    "#{super(user)} patch-alive-test #{pinned? ? 'pinned' : ''}".strip
+    s = super(user)
+    s = "#{s} pinned" if pinned?
+    s
   end
 end
 

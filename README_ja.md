@@ -125,6 +125,23 @@ bundle exec rake redmine:pinned_issues:cleanup RAILS_ENV=production
 0 3 * * * cd /path/to/redmine && /usr/bin/flock -xn /tmp/redmine_pinned_issues_cleanup.lock -c 'RAILS_ENV=production bundle exec rake redmine:pinned_issues:cleanup'
 ```
 
+### 更新履歴
+v0.2.1 (2026-05-20)
+
+* デバッグ用CSSクラス (patch-alive-test) がチケット行に残っていた問題を修正。
+
+v0.2.0 (2026-04-18)
+
+* 初回公開リリース。
+* 右クリックメニューからチケットのピン留め/解除が可能。
+* 有効期限を9種類のプリセット（30分〜無期限）から選択可能。
+* ロールベースの権限管理とプロジェクト単位のモジュール有効化に対応。
+* ピン留め行の背景色を奇数行/偶数行で個別にカスタマイズ可能。
+* チケット一覧・詳細画面に📍アイコンを表示。
+* ピン留め内の並び順：無期限を最上位、以降は残り時間が長い順で表示。
+* メンテナンス用Rakeタスク（status / list / cleanup / help）を提供。
+* スコープ付きアソシエーションによる期限切れピンの自動フィルタリング。
+
 ## 作成者
 
 seraph3000 ([GitHub](https://github.com/seraph3000))

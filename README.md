@@ -125,6 +125,24 @@ Expired pins are automatically removed and the issue returns to its normal posit
 0 3 * * * cd /path/to/redmine && /usr/bin/flock -xn /tmp/redmine_pinned_issues_cleanup.lock -c 'RAILS_ENV=production bundle exec rake redmine:pinned_issues:cleanup'
 ```
 
+## Changelog
+
+v0.2.1 (2026-05-20)
+
+* Removed leftover debug CSS class (patch-alive-test) from issue row output.
+
+v0.2.0 (2026-04-18)
+
+* Initial public release.
+* Pin/Unpin issues via right-click context menu.
+* 9 expiration presets (30 min to no expiration).
+* Role-based permission control and per-project module activation.
+* Customizable background colors for pinned rows (odd/even).
+* 📍 icon display on issue list and detail pages.
+* Smart sort order: no-expiration first, then by remaining time descending.
+* Rake tasks for status, list, cleanup, and help.
+* Automatic expired-pin filtering via scoped associations.
+
 ## Author
 
 seraph3000 ([GitHub](https://github.com/seraph3000))
