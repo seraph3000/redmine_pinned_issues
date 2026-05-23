@@ -54,3 +54,10 @@ ja:
   rake_desc_status: 現在のピン留め状況を表示する (有効/期限切れ/合計)
   rake_desc_list: 有効中のピン留めチケット一覧を表示する
   rake_desc_help: このプラグインで利用可能なタスク一覧を表示する
+
+  label_pinned_by: "ピン留め"
+  label_pin_remaining: "残り"
+  label_pin_expired: 期限切れ
+  label_pin_time_day: "日"
+  label_pin_time_hour: "時間"
+  label_pin_time_min: "分"

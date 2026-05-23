@@ -17,10 +17,16 @@
 * **プロジェクトモジュール**: プロジェクトごとに、ピン留め機能自体を有効化/無効化できます。
 * **視覚的インジケータ**:
   * ピン留めされた行は背景色でハイライト（奇数行/偶数行で色を分けて設定可能）。
-  * チケットの題名前に 📍 アイコンを表示（一覧画面・詳細画面の両方）。
+  * チケットの題名前に 📌 アイコンを表示（一覧画面・詳細画面の両方）。
+  * 📌 アイコンにマウスを乗せると、設定者と残り時間をツールチップで表示。
 * **カラー設定**: 背景色とアイコン色はプラグイン設定画面から自由にカスタマイズ可能。
 * **右クリックメニュー操作**: すべての操作は右クリックメニューから実行でき、期限選択はサブメニュー形式。画面遷移やモーダルダイアログなしに、Ajaxでその場で完了。
 * **ピン留め内の並び順**: ピン留めされたチケット間では、無期限のものを最上部に、残り時間が長いものから順に表示。
+
+> **補足（有効期限の計算について）:**
+> 「1週間」「1ヶ月」などの期間は Ruby on Rails のカレンダー基準で計算されます。
+> 特に「1ヶ月」は固定30日ではなく**翌月の同日まで**を指すため、ピン留めした月によって残り時間が 28〜31 日の範囲で変動します（例: 5月にピン留めすると約31日、2月なら約28日）。
+> ツールチップの残り時間表示はこの実日数をそのまま表示します。
 
 ## 動作要件
 
@@ -36,22 +42,40 @@
    ```bash
    cd /path/to/redmine/plugins
    git clone https://github.com/seraph3000/redmine_pinned_issues.git
-   ```
-2. Redmineのルートディレクトリに移動し、以下のコマンドを実行してデータベースのマイグレーションを行います。
-
-   ```bash
-   # 本番環境の場合
+   cd /path/to/redmine
    bundle exec rake redmine:plugins:migrate RAILS_ENV=production
-
-   # 開発環境の場合
-   bundle exec rake redmine:plugins:migrate RAILS_ENV=development
    ```
-3. RedmineのWebサーバーを再起動します。
+2. 環境によってはアセットの再コンパイルが必要です。
 
    ```bash
-   # 例: passenger を利用している場合
-   touch /path/to/redmine/tmp/restart.txt
+   RAILS_ENV=production bundle exec rake assets:clobber
+   RAILS_ENV=production bundle exec rake assets:precompile
    ```
+
+> サブディレクトリ運用時（例: `/redmine`）は `RAILS_RELATIVE_URL_ROOT=/redmine` を先頭に付与してください。
+
+3. Webサーバーを再起動してください（例: `systemctl restart httpd`）
+
+## アンインストール
+
+1. プラグインのマイグレーションを差し戻します（`pinned_issues` テーブルが削除され、ピン留めデータも消えます）。
+
+```bash
+   cd /path/to/redmine
+   bundle exec rake redmine:plugins:migrate NAME=redmine_pinned_issues VERSION=0 RAILS_ENV=production
+```
+2. プラグインディレクトリを削除します。
+
+```bash
+   rm -rf /path/to/redmine/plugins/redmine_pinned_issues
+```
+3. 環境によってはアセットを再コンパイルします。
+
+```bash
+   RAILS_ENV=production bundle exec rake assets:clobber
+   RAILS_ENV=production bundle exec rake assets:precompile
+```
+4. Webサーバーを再起動してください（例: `systemctl restart httpd`）。
 
 ## セットアップと設定
 
@@ -96,7 +120,7 @@ Redmineの管理者が、どのロールにピン留め操作を許可するか�
 3. 画面遷移なしで即座にピン留めされます。
 4. 解除する場合は、再度右クリックして「**ピン留めを解除**」を選択します。
 
-ピン留めされたチケットは題名前に 📍 アイコンが付き、行の背景色がハイライトされます。詳細画面でも同様に題名横にピンアイコンが表示されます。
+ピン留めされたチケットは題名前に 📌 アイコンが付き、行の背景色がハイライトされます。詳細画面でも同様に題名横にピンアイコンが表示されます。
 
 ## Rakeタスク
 
@@ -126,6 +150,12 @@ bundle exec rake redmine:pinned_issues:cleanup RAILS_ENV=production
 ```
 
 ### 更新履歴
+
+v0.2.2 (2026-05-23)
+
+* 📌アイコンにツールチップを追加。マウスオーバーで設定者と残り時間を表示。
+* 有効期限がカレンダー基準である点（「1ヶ月」は固定30日ではない）を README に明記。
+
 v0.2.1 (2026-05-20)
 
 * デバッグ用CSSクラス (patch-alive-test) がチケット行に残っていた問題を修正。
@@ -137,7 +167,7 @@ v0.2.0 (2026-04-18)
 * 有効期限を9種類のプリセット（30分〜無期限）から選択可能。
 * ロールベースの権限管理とプロジェクト単位のモジュール有効化に対応。
 * ピン留め行の背景色を奇数行/偶数行で個別にカスタマイズ可能。
-* チケット一覧・詳細画面に📍アイコンを表示。
+* チケット一覧・詳細画面に📌アイコンを表示。
 * ピン留め内の並び順：無期限を最上位、以降は残り時間が長い順で表示。
 * メンテナンス用Rakeタスク（status / list / cleanup / help）を提供。
 * スコープ付きアソシエーションによる期限切れピンの自動フィルタリング。

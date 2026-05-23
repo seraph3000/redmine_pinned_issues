@@ -54,3 +54,10 @@ en:
   rake_desc_status: Show current pinned issues status (active/expired/total)
   rake_desc_list: List active pinned issues
   rake_desc_help: Show available tasks for this plugin
+
+  label_pinned_by: "Pinned by"
+  label_pin_remaining: "Remaining"
+  label_pin_expired: Expired
+  label_pin_time_day: "d"
+  label_pin_time_hour: "h"
+  label_pin_time_min: "m"

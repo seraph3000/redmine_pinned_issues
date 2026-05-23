@@ -41,10 +41,49 @@ tr.issue.pinned:hover {
   padding-left: 20px;
 }
 
-/* 一覧画面：ピン留めチケットの題名前に📍を表示 */
-tr.issue.pinned td.subject::before {
-  content: "📍";
+/* plugins/redmine_pinned_issues/assets/stylesheets/pinned_issues.css */
+
+/* 1. チケット一覧：ピン留め行の背景色（CSS変数を使用） */
+tr.issue.pinned.odd {
+  background-color: var(--pinned-bg-odd) !important;
+}
+
+tr.issue.pinned.even {
+  background-color: var(--pinned-bg-even) !important;
+}
+
+/* ホバー時は少し色を濃くして操作感を出す */
+tr.issue.pinned:hover {
+  filter: brightness(0.95);
+}
+
+/* 2. アイコンのスタイル（色と配置） */
+
+/* 一覧画面のアイコン */
+.pinned-icon-wrapper {
+  display: inline-block;
+  vertical-align: middle;
   margin-right: 6px;
   font-size: 14px;
+  cursor: default;
   font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+}
+
+/* 詳細画面のアイコン */
+.pinned-icon-wrapper-show {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+  font-size: 20px;
+  cursor: default;
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+}
+
+/* 3. 右クリックメニューの体裁調整 */
+#context-menu li.folder > a {
+  padding-left: 20px;
+}
+
+#context-menu li > a.js-pin-toggle {
+  padding-left: 20px;
 }

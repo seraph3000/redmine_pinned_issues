@@ -30,12 +30,39 @@ class ViewHooksV6 < Redmine::Hook::ViewListener
 
   def view_layouts_base_body_bottom(context)
     html = ""
-    if context[:controller].controller_name == 'issues' && context[:controller].action_name == 'show'
-      issue = context[:issue]
-      if issue&.pinned?
-        html << "<div id='pinned-icon-show-template' style='display:none;'><span class='pinned-icon-wrapper-show'>📍</span></div>"
+    controller = context[:controller]
+
+    # issues画面（一覧・詳細共通）でピン留めデータをJSON埋め込み
+    if controller.controller_name == 'issues'
+      pinned_data = {}
+      PinnedIssue.active.includes(:user).find_each do |pin|
+        pinned_data[pin.issue_id] = {
+          user: pin.user&.name || I18n.t('rake_pinned_issues.list_unknown_user'),
+          expires_at: pin.expires_at&.iso8601
+        }
       end
+
+      labels = {
+        pinned_by:     I18n.t(:label_pinned_by),
+        remaining:     I18n.t(:label_pin_remaining),
+        no_expiration: I18n.t(:label_pin_no_expiration),
+        expired:       I18n.t(:label_pin_expired),
+        day:           I18n.t(:label_pin_time_day),
+        hour:          I18n.t(:label_pin_time_hour),
+        min:           I18n.t(:label_pin_time_min)
+      }
+
+      data = { pins: pinned_data, labels: labels }
+
+      if controller.action_name == 'show'
+        issue = context[:issue] || controller.instance_variable_get(:@issue)
+        data[:currentIssueId] = issue&.id
+      end
+
+      json_str = data.to_json.gsub('</', '<\/')
+      html << content_tag(:script, json_str.html_safe, type: 'application/json', id: 'pinned-issues-data')
     end
+
     html << javascript_include_tag('pinned_issues.js', plugin: 'redmine_pinned_issues')
     html << stylesheet_link_tag('pinned_issues.css', plugin: 'redmine_pinned_issues')
     html.html_safe
@@ -55,21 +82,6 @@ class ViewHooksV6 < Redmine::Hook::ViewListener
         --pinned-icon-color: #{icon_color};
       }
     CSS
-
-    # 詳細画面でピン留めチケット表示中の場合、h2の前に📍を追加
-    controller = context[:controller]
-    if controller && controller.controller_name == 'issues' && controller.action_name == 'show'
-      issue = controller.instance_variable_get(:@issue)
-      if issue.respond_to?(:pinned?) && issue.pinned?
-        css += <<~CSS
-          body.controller-issues.action-show h2::before {
-            content: "📍";
-            margin-right: 10px;
-            font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
-          }
-        CSS
-      end
-    end
     content_tag(:style) { css.html_safe }
   end
 end
