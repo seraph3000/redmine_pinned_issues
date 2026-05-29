@@ -71,9 +71,10 @@ class ViewHooksV6 < Redmine::Hook::ViewListener
   def view_layouts_base_html_head(context)
     settings = Setting.plugin_redmine_pinned_issues || {}
     defaults = RedminePinnedIssues::DEFAULT_COLORS
-    odd_color = settings['pinned_color_odd'].presence || defaults['pinned_color_odd']
-    even_color = settings['pinned_color_even'].presence || defaults['pinned_color_even']
-    icon_color = settings['pinned_icon_color'].presence || defaults['pinned_icon_color']
+
+    odd_color = sanitize_color(settings['pinned_color_odd'], defaults['pinned_color_odd'])
+    even_color = sanitize_color(settings['pinned_color_even'], defaults['pinned_color_even'])
+    icon_color = sanitize_color(settings['pinned_icon_color'], defaults['pinned_icon_color'])
 
     css = <<~CSS
       :root {
@@ -84,4 +85,12 @@ class ViewHooksV6 < Redmine::Hook::ViewListener
     CSS
     content_tag(:style) { css.html_safe }
   end
+end
+
+private
+
+# 16進カラーコードのみ許可。不正値はフォールバック
+def sanitize_color(value, fallback)
+  v = value.to_s.strip
+  v =~ /\A#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})\z/ ? v : fallback
 end

@@ -149,6 +149,13 @@ Expired pins are automatically removed and the issue returns to its normal posit
 
 ## Changelog
 
+v0.2.3 (2026-05-29)
+
+* Validated plugin color settings (hex format only) before rendering them into inline CSS, fixing a potential stored XSS on the settings screen.
+* Added a default pinned icon color so an empty setting no longer outputs a broken CSS variable.
+* Restricted pin actions to visible issues (Issue.visible) to respect per-issue visibility.
+* Handled concurrent pin toggles gracefully to prevent rare errors on rapid double-clicks.
+
 v0.2.2 (2026-05-23)
 
 * Added a tooltip on the 📌 icon showing who pinned the issue and the remaining time on hover.
