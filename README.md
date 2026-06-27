@@ -149,6 +149,11 @@ Expired pins are automatically removed and the issue returns to its normal posit
 
 ## Changelog
 
+v0.2.4 (2026-06-27)
+
+* Fixed an issue where the pin/unpin options mistakenly appeared in the context menu on Gantt chart views.
+* Optimized performance by restricting plugin JavaScript, CSS, and JSON data injection to issue-related pages only.
+
 v0.2.3 (2026-05-29)
 
 * Validated plugin color settings (hex format only) before rendering them into inline CSS, fixing a potential stored XSS on the settings screen.

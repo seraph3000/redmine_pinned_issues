@@ -18,7 +18,7 @@ Redmine::Plugin.register :redmine_pinned_issues do
   name 'Redmine Pinned Issues plugin'
   author 'seraph3000'
   description 'A plugin to pin issues to the top of the list with an expiration date.'
-  version '0.2.3'
+  version '0.2.4'
   url 'https://github.com/seraph3000/redmine_pinned_issues'
   author_url 'https://github.com/seraph3000'
 

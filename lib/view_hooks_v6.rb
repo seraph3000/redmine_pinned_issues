@@ -3,6 +3,10 @@ class ViewHooksV6 < Redmine::Hook::ViewListener
     issues = context[:issues]
     return if issues.blank? || issues.size != 1
 
+    # pin は一覧・詳細用。ガントチャート由来のメニューには出さない。
+    back = context[:back].to_s
+    return if back =~ %r{/issues/gantt\b} || back =~ %r{/gantt\b}
+
     issue = issues.first
     project = issue.project
     return unless project.module_enabled?(:pinned_issues_module) && User.current.allowed_to?(:pin_issues, project)
@@ -31,6 +35,10 @@ class ViewHooksV6 < Redmine::Hook::ViewListener
   def view_layouts_base_body_bottom(context)
     html = ""
     controller = context[:controller]
+
+    # pin が機能するのは issues 画面（一覧・詳細）のみ。
+    # JSON埋め込みも JS/CSS ロードもこの画面に限定する。
+    return '' unless controller.controller_name == 'issues'
 
     # issues画面（一覧・詳細共通）でピン留めデータをJSON埋め込み
     if controller.controller_name == 'issues'
