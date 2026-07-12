@@ -29,9 +29,7 @@ Supports expiration periods, role-based permissions, and per-project module acti
 
 ## Requirements
 
-* Redmine 6.0+ (also supports 6.1)
-* Ruby 3.2+
-* Ruby on Rails 7.2
+* Redmine 6.0, 6.1, or 7.0
 * PostgreSQL 16 (other databases may work but are not officially tested)
 
 ## Installation
@@ -148,6 +146,10 @@ Expired pins are automatically removed and the issue returns to its normal posit
 ```
 
 ## Changelog
+
+v0.2.5 (2026-07-12)
+
+* Confirmed compatibility with Redmine 7.0. No code changes required; sort/join patches already use `Arel.sql` and DB-agnostic quoting.
 
 v0.2.4 (2026-06-27)
 

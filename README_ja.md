@@ -30,10 +30,8 @@
 
 ## 動作要件
 
-* Redmine 6.0以降（6.1にも対応）
-* Ruby 3.2以降
-* Ruby on Rails 7.2
-* PostgreSQL 16（他のDBも動作する可能性はありますが、公式にはテストしていません）
+* Redmine 6.0 / 6.1 / 7.0
+* PostgreSQL 16（他DBも動作する可能性はあるが公式テスト外）
 
 ## インストール手順
 
@@ -150,6 +148,9 @@ bundle exec rake redmine:pinned_issues:cleanup RAILS_ENV=production
 ```
 
 ### 更新履歴
+v0.2.5 (2026-07)
+
+* Redmine 7.0での動作を確認。コード変更不要（並び替え・JOINパッチは `Arel.sql` とDB非依存のクォートを使用済みのため）。
 
 v0.2.4 (2026-06-27)
 
