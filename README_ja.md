@@ -148,7 +148,7 @@ bundle exec rake redmine:pinned_issues:cleanup RAILS_ENV=production
 ```
 
 ### 更新履歴
-v0.2.5 (2026-07)
+v0.2.5 (2026-07-12)
 
 * Redmine 7.0での動作を確認。コード変更不要（並び替え・JOINパッチは `Arel.sql` とDB非依存のクォートを使用済みのため）。
 
