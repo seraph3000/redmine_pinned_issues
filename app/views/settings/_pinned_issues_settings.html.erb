@@ -4,6 +4,7 @@
 %>
 
 <div class="box tabular">
+  <h4><%= l(:label_pinned_settings_header) %></h4>
   <p>
     <label><%= l(:label_pinned_color_odd) %></label>
     <input type="color" id="color_picker_odd" value="<%= settings['pinned_color_odd'] %>" oninput="document.getElementById('settings_pinned_color_odd').value = this.value">
@@ -16,5 +17,15 @@
     <input type="color" id="color_picker_even" value="<%= settings['pinned_color_even'] %>" oninput="document.getElementById('settings_pinned_color_even').value = this.value">
     <input type="text" name="settings[pinned_color_even]" id="settings_pinned_color_even" value="<%= settings['pinned_color_even'] %>" size="10" oninput="document.getElementById('color_picker_even').value = this.value">
     <a href="#" class="icon icon-reload" onclick="document.getElementById('settings_pinned_color_even').value = '<%= default_even %>'; document.getElementById('color_picker_even').value = '<%= default_even %>'; return false;"><%= l(:button_reset_default) %></a>
+  </p>
+</div>
+
+<div class="box tabular">
+  <h4><%= l(:label_issue_colors_header) %></h4>
+  <p>
+    <label><%= l(:label_enable_issue_colors) %></label>
+    <input type="hidden" name="settings[enable_issue_colors]" value="0">
+    <%= check_box_tag 'settings[enable_issue_colors]', '1', settings['enable_issue_colors'] == '1' %>
+    <em class="info"><%= l(:text_issue_colors_description) %></em>
   </p>
 </div>

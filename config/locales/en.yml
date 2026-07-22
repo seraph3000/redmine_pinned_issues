@@ -61,3 +61,8 @@ en:
   label_pin_time_day: "d"
   label_pin_time_hour: "h"
   label_pin_time_min: "m"
+
+  label_pinned_settings_header: Pin settings
+  label_issue_colors_header: Issue list colors
+  label_enable_issue_colors: Enable issue list coloring
+  text_issue_colors_description: Colorize issue rows by priority and overdue status (Farend fancy theme compatible)

@@ -79,10 +79,9 @@ class ViewHooksV6 < Redmine::Hook::ViewListener
   def view_layouts_base_html_head(context)
     settings = Setting.plugin_redmine_pinned_issues || {}
     defaults = RedminePinnedIssues::DEFAULT_COLORS
-
-    odd_color = sanitize_color(settings['pinned_color_odd'], defaults['pinned_color_odd'])
-    even_color = sanitize_color(settings['pinned_color_even'], defaults['pinned_color_even'])
-    icon_color = sanitize_color(settings['pinned_icon_color'], defaults['pinned_icon_color'])
+    odd_color = settings['pinned_color_odd'].presence || defaults['pinned_color_odd']
+    even_color = settings['pinned_color_even'].presence || defaults['pinned_color_even']
+    icon_color = settings['pinned_icon_color'].presence || defaults['pinned_icon_color']
 
     css = <<~CSS
       :root {
@@ -91,14 +90,61 @@ class ViewHooksV6 < Redmine::Hook::ViewListener
         --pinned-icon-color: #{icon_color};
       }
     CSS
+
+    if settings['enable_issue_colors'] == '1'
+      css += <<~CSS
+
+        /* Issue list colors (Farend_fancy compatible) */
+
+        /* overdue */
+        tr.odd.overdue  { background: #ffd8b2; }
+        tr.even.overdue { background: #ffe5cc; }
+        tr.odd.overdue td, tr.even.overdue td { border-color: #fcc; }
+
+        /* priority-highest */
+        tr.odd.priority-highest  { background: #ffc4c4; }
+        tr.even.priority-highest { background: #ffd4d4; }
+        tr.odd.priority-highest td, tr.even.priority-highest td { border-color: #ffb4b4; }
+        tr.odd.priority-highest, tr.even.priority-highest,
+        table.list tbody tr.odd.priority-highest:hover,
+        table.list tbody tr.even.priority-highest:hover { color: #900; font-weight: bold; }
+        tr.priority-highest a, tr.priority-highest:hover a { color: #900; }
+
+        /* priority-high2 */
+        tr.odd.priority-high2  { background: #ffc4c4; }
+        tr.even.priority-high2 { background: #ffd4d4; }
+        tr.odd.priority-high2 td, tr.even.priority-high2 td { border-color: #ffb4b4; }
+        tr.odd.priority-high2, tr.even.priority-high2,
+        table.list tbody tr.odd.priority-high2:hover,
+        table.list tbody tr.even.priority-high2:hover { color: #900; }
+        tr.priority-high2 a { color: #900; }
+
+        /* priority-high3 */
+        tr.odd.priority-high3  { background: #fee; }
+        tr.even.priority-high3 { background: #fff2f2; }
+        tr.odd.priority-high3 td, tr.even.priority-high3 td { border-color: #fcc; }
+        tr.odd.priority-high3, tr.even.priority-high3,
+        table.list tbody tr.odd.priority-high3:hover,
+        table.list tbody tr.even.priority-high3:hover { color: #900; }
+        tr.priority-high3 a { color: #900; }
+
+        /* priority-lowest */
+        tr.odd.priority-lowest  { background: #eaf7ff; }
+        tr.even.priority-lowest { background: #f2faff; }
+        tr.odd.priority-lowest td, tr.even.priority-lowest td { border-color: #add7f3; }
+        tr.odd.priority-lowest, tr.even.priority-lowest,
+        table.list tbody tr.odd.priority-lowest:hover,
+        table.list tbody tr.even.priority-lowest:hover { color: #559; }
+        tr.priority-lowest a { color: #559; }
+
+        /* closed */
+        table.list.issues tr.closed td { opacity: 0.7; }
+
+        /* calendar overdue */
+        table.cal div.overdue { background: #ffe5cc; }
+      CSS
+    end
+
     content_tag(:style) { css.html_safe }
   end
-end
-
-private
-
-# 16進カラーコードのみ許可。不正値はフォールバック
-def sanitize_color(value, fallback)
-  v = value.to_s.strip
-  v =~ /\A#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})\z/ ? v : fallback
 end

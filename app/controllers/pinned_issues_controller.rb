@@ -16,15 +16,12 @@ class PinnedIssuesController < ApplicationController
       @message = l(:notice_issue_unpinned)
     else
       expires_at = calculate_expires_at(params[:expires_in])
-      begin
-        PinnedIssue.create!(
-          issue: @issue,
-          project: @project,
-          user: User.current,
-          expires_at: expires_at
-        )
-      rescue ActiveRecord::RecordNotUnique
-      end
+      PinnedIssue.create!(
+        issue: @issue,
+        project: @project,
+        user: User.current,
+        expires_at: expires_at
+      )
       @message = l(:notice_issue_pinned)
     end
 
@@ -37,7 +34,7 @@ class PinnedIssuesController < ApplicationController
   private
 
   def find_issue
-    @issue = Issue.visible.find(params[:issue_id])
+    @issue = Issue.find(params[:issue_id])
     @project = @issue.project
   rescue ActiveRecord::RecordNotFound
     render_404

@@ -61,3 +61,8 @@ ja:
   label_pin_time_day: "日"
   label_pin_time_hour: "時間"
   label_pin_time_min: "分"
+
+  label_pinned_settings_header: ピン留め設定
+  label_issue_colors_header: チケット一覧カラー
+  label_enable_issue_colors: チケット一覧の色分けを有効にする
+  text_issue_colors_description: 優先度・期限超過に応じてチケット行を色分けします（Farend fancyテーマ互換）
