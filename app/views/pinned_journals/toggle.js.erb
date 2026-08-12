@@ -1,0 +1,14 @@
+<% label = @important ? l(:label_important_unpin) : l(:label_important_pin) %>
+(function () {
+  var row = document.getElementById("change-<%= @journal.id %>");
+  if (!row) { return; }
+
+  var on = <%= @important ? 'true' : 'false' %>;
+  row.classList.toggle("important-note-row", on);
+
+  var btn = row.querySelector(".important-toggle");
+  if (!btn) { return; }
+
+  btn.classList.toggle("is-on", on);
+  btn.title = "<%= escape_javascript(label) %>";
+})();

@@ -36,6 +36,7 @@ class PinnedIssuesController < ApplicationController
   def find_issue
     @issue = Issue.find(params[:issue_id])
     @project = @issue.project
+    render_403 unless @issue.visible?
   rescue ActiveRecord::RecordNotFound
     render_404
   end

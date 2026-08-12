@@ -1,5 +1,3 @@
-# plugins/redmine_pinned_issues/config/locales/en.yml
-
 en:
   project_module_pinned_issues_module: Pin Issues
   permission_pin_issues: Pin issues
@@ -24,29 +22,28 @@ en:
 
   label_pinned_color_odd: Pinned row background color (odd)
   label_pinned_color_even: Pinned row background color (even)
-  label_pinned_icon_color: Pinned icon color
   button_reset_default: Reset to default
 
   rake_pinned_issues:
     no_expired: No expired pinned issues.
     cleanup_count: "Deleting %{count} expired pinned issue(s)..."
     cleanup_done: Done.
-    status_header: ===== Pinned Issues Status =====
+    status_header: "===== Pinned Issues Status ====="
     status_total: "Total    : %{count}"
     status_active: "Active   : %{count}"
     status_expired: "Expired  : %{count}"
     no_active: No active pinned issues.
-    list_header: ===== Active Pinned Issues =====
+    list_header: "===== Active Pinned Issues ====="
     list_no_expiration: No expiration
     list_unknown_project: (Unknown project)
     list_unknown_issue: (Unknown issue)
     list_unknown_user: (Unknown user)
     list_entry: "  Expires: %{expires} / Set by: %{user}"
     help_header: "===== redmine_pinned_issues Available Tasks ====="
-    help_desc_cleanup: "Deletes expired pinned issue records from the DB. Recommended to run periodically via cron."
-    help_desc_status: "Shows current pinned issues status (active/expired/total)."
-    help_desc_list: "Lists all active pinned issues."
-    help_desc_help: "Shows this help."
+    help_desc_cleanup: Deletes expired pinned issue records from the DB. Recommended to run periodically via cron.
+    help_desc_status: Shows current pinned issues status (active/expired/total).
+    help_desc_list: Lists all active pinned issues.
+    help_desc_help: Shows this help.
     help_usage_label: "Usage:"
     help_cron_label: "Cron example (cleanup at 3:00 daily):"
 
@@ -55,14 +52,31 @@ en:
   rake_desc_list: List active pinned issues
   rake_desc_help: Show available tasks for this plugin
 
-  label_pinned_by: "Pinned by"
-  label_pin_remaining: "Remaining"
+  label_pinned_by: Pinned by
+  label_pin_remaining: Remaining
   label_pin_expired: Expired
-  label_pin_time_day: "d"
-  label_pin_time_hour: "h"
-  label_pin_time_min: "m"
+  label_pin_time_day: d
+  label_pin_time_hour: h
+  label_pin_time_min: m
 
   label_pinned_settings_header: Pin settings
   label_issue_colors_header: Issue list colors
   label_enable_issue_colors: Enable issue list coloring
   text_issue_colors_description: Colorize issue rows by priority and overdue status (Farend fancy theme compatible)
+
+  field_important_note: Important
+  text_important_added: marked
+  text_important_unpinned: unmarked
+  text_important_note_detail: "%{label} %{action} (%{target})"
+  text_color_format_hint: "Enter a color in #RRGGBB or #RGB format"
+
+  permission_pin_journals: Pin comments as important
+  label_important_pin: Mark as important
+  label_important_unpin: Unmark important
+
+  label_important_notes_tab: Important notes
+
+  label_important_settings_header: Important note settings
+  label_important_header_color: Header underline color
+  label_important_bg_color: Note background color
+  label_important_border_color: Note left border color
