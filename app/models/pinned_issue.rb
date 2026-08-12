@@ -1,5 +1,3 @@
-# plugins/redmine_pinned_issues/app/models/pinned_issue.rb
-
 class PinnedIssue < ActiveRecord::Base
   belongs_to :issue
   belongs_to :project

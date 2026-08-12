@@ -1,0 +1,26 @@
+/* ヘッダ：下にライン（区切り）
+   6.0     … .note-header
+   6.1/7.0 … .journal-header (#42972 で構造統一) */
+.journal.important-note-row .note-header,
+.journal.important-note-row .journal-header {
+  border-bottom: 1.5px solid var(--important-header-color);
+}
+
+.journal.important-note-row .note-header {
+  padding-bottom: 4px;
+}
+
+.journal.important-note-row .wiki {
+  background-color: var(--important-bg-color);
+  border-left: 5px solid var(--important-border-color);
+  padding: 6px 8px;
+}
+
+.important-toggle {
+  opacity: 0.45;
+}
+
+.important-toggle:hover,
+.important-toggle.is-on {
+  opacity: 1;
+}

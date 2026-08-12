@@ -33,61 +33,49 @@ class ViewHooksV6 < Redmine::Hook::ViewListener
   end
 
   def view_layouts_base_body_bottom(context)
-    html = ""
     controller = context[:controller]
-
-    # pin が機能するのは issues 画面（一覧・詳細）のみ。
-    # JSON埋め込みも JS/CSS ロードもこの画面に限定する。
     return '' unless controller.controller_name == 'issues'
 
-    # issues画面（一覧・詳細共通）でピン留めデータをJSON埋め込み
-    if controller.controller_name == 'issues'
-      pinned_data = {}
-      PinnedIssue.active.includes(:user).find_each do |pin|
-        pinned_data[pin.issue_id] = {
-          user: pin.user&.name || I18n.t('rake_pinned_issues.list_unknown_user'),
-          expires_at: pin.expires_at&.iso8601
-        }
+    html = ""
+
+    # 詳細画面：対象チケット1件分のみ
+    if controller.action_name == 'show'
+      issue = context[:issue] || controller.instance_variable_get(:@issue)
+      if issue
+        html << render_pinned_data(PinnedIssue.active.where(issue_id: issue.id), current_issue_id: issue.id)
       end
-
-      labels = {
-        pinned_by:     I18n.t(:label_pinned_by),
-        remaining:     I18n.t(:label_pin_remaining),
-        no_expiration: I18n.t(:label_pin_no_expiration),
-        expired:       I18n.t(:label_pin_expired),
-        day:           I18n.t(:label_pin_time_day),
-        hour:          I18n.t(:label_pin_time_hour),
-        min:           I18n.t(:label_pin_time_min)
-      }
-
-      data = { pins: pinned_data, labels: labels }
-
-      if controller.action_name == 'show'
-        issue = context[:issue] || controller.instance_variable_get(:@issue)
-        data[:currentIssueId] = issue&.id
-      end
-
-      json_str = data.to_json.gsub('</', '<\/')
-      html << content_tag(:script, json_str.html_safe, type: 'application/json', id: 'pinned-issues-data')
     end
 
     html << javascript_include_tag('pinned_issues.js', plugin: 'redmine_pinned_issues')
     html << stylesheet_link_tag('pinned_issues.css', plugin: 'redmine_pinned_issues')
+
+    if controller.action_name == 'show'
+      html << javascript_include_tag('pinned_journals.js', plugin: 'redmine_pinned_issues')
+      html << stylesheet_link_tag('pinned_journals.css', plugin: 'redmine_pinned_issues')
+    end
+
     html.html_safe
   end
 
   def view_layouts_base_html_head(context)
     settings = Setting.plugin_redmine_pinned_issues || {}
     defaults = RedminePinnedIssues::DEFAULT_COLORS
-    odd_color = settings['pinned_color_odd'].presence || defaults['pinned_color_odd']
-    even_color = settings['pinned_color_even'].presence || defaults['pinned_color_even']
-    icon_color = settings['pinned_icon_color'].presence || defaults['pinned_icon_color']
 
+    odd_color  = safe_color(settings['pinned_color_odd'],  defaults['pinned_color_odd'])
+    even_color = safe_color(settings['pinned_color_even'], defaults['pinned_color_even'])
+
+    imp_header = safe_color(settings['important_header_color'], defaults['important_header_color'])
+    imp_border = safe_color(settings['important_border_color'], defaults['important_border_color'])
+    imp_bg     = safe_color(settings['important_bg_color'],     defaults['important_bg_color'])
+
+    # 以降は変更なし
     css = <<~CSS
       :root {
         --pinned-bg-odd: #{odd_color};
         --pinned-bg-even: #{even_color};
-        --pinned-icon-color: #{icon_color};
+        --important-header-color: #{imp_header};
+        --important-border-color: #{imp_border};
+        --important-bg-color: #{imp_bg};
       }
     CSS
 
@@ -146,5 +134,50 @@ class ViewHooksV6 < Redmine::Hook::ViewListener
     end
 
     content_tag(:style) { css.html_safe }
+  end
+
+  # 一覧画面：表示中のチケット分だけピン留めデータを埋め込む
+  def view_issues_index_bottom(context)
+    issues = context[:issues]
+    return '' if issues.blank?
+
+    render_pinned_data(PinnedIssue.active.where(issue_id: issues.map(&:id)))
+  end
+
+  private
+
+  HEX_COLOR = /\A#(?:\h{3}|\h{6})\z/
+
+  def safe_color(value, fallback)
+    v = value.to_s.strip
+    v.match?(HEX_COLOR) ? v : fallback
+  end
+
+  # ピン留めデータの JSON 埋め込みを生成する
+  def render_pinned_data(scope, current_issue_id: nil)
+    pins = {}
+    scope.includes(:user).find_each do |pin|
+      pins[pin.issue_id] = {
+        user: pin.user&.name || I18n.t('rake_pinned_issues.list_unknown_user'),
+        expires_at: pin.expires_at&.iso8601
+      }
+    end
+
+    data = {
+      pins: pins,
+      labels: {
+        pinned_by:     I18n.t(:label_pinned_by),
+        remaining:     I18n.t(:label_pin_remaining),
+        no_expiration: I18n.t(:label_pin_no_expiration),
+        expired:       I18n.t(:label_pin_expired),
+        day:           I18n.t(:label_pin_time_day),
+        hour:          I18n.t(:label_pin_time_hour),
+        min:           I18n.t(:label_pin_time_min)
+      }
+    }
+    data[:currentIssueId] = current_issue_id if current_issue_id
+
+    json_str = data.to_json.gsub('</', '<\/')
+    content_tag(:script, json_str.html_safe, type: 'application/json', id: 'pinned-issues-data')
   end
 end
