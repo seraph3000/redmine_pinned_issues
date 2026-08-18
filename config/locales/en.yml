@@ -66,7 +66,7 @@ en:
 
   field_important_note: Important
   text_important_added: marked
-  text_important_unpinned: unmarked
+  text_important_removed: unmarked
   text_important_note_detail: "%{label} %{action} (%{target})"
   text_color_format_hint: "Enter a color in #RRGGBB or #RGB format"
 
@@ -80,3 +80,7 @@ en:
   label_important_header_color: Header underline color
   label_important_bg_color: Note background color
   label_important_border_color: Note left border color
+
+  label_important_note_limit: Maximum per issue
+  text_important_note_limit_description: 0 means unlimited. New marks are rejected once the limit is reached.
+  error_important_limit_reached: "Up to %{count} important notes are allowed per issue."

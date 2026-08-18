@@ -1,4 +1,5 @@
 class ViewHooksV6 < Redmine::Hook::ViewListener
+  HEX_COLOR = /\A#(?:\h{3}|\h{6})\z/
   def view_issues_context_menu_end(context)
     issues = context[:issues]
     return if issues.blank? || issues.size != 1
@@ -145,8 +146,6 @@ class ViewHooksV6 < Redmine::Hook::ViewListener
   end
 
   private
-
-  HEX_COLOR = /\A#(?:\h{3}|\h{6})\z/
 
   def safe_color(value, fallback)
     v = value.to_s.strip

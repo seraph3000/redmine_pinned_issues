@@ -27,7 +27,6 @@
             oninput="document.getElementById('color_picker_odd').value = this.value">
     <a href="#" class="icon icon-reload" onclick="document.getElementById('settings_pinned_color_odd').value = '<%= default_odd %>'; document.getElementById('color_picker_odd').value = '<%= default_odd %>'; return false;"><%= l(:button_reset_default) %></a>
   </p>
-
   <p>
     <label><%= l(:label_pinned_color_even) %></label>
     <input type="color" id="color_picker_even" value="<%= value_even %>" oninput="document.getElementById('settings_pinned_color_even').value = this.value">
@@ -42,6 +41,13 @@
 <div class="box tabular">
   <h4><%= l(:label_important_settings_header) %></h4>
   <p>
+    <label><%= l(:label_important_note_limit) %></label>
+    <input type="number" name="settings[important_note_limit]"
+            value="<%= settings['important_note_limit'].presence || '0' %>"
+            size="6" min="0" step="1">
+    <em class="info"><%= l(:text_important_note_limit_description) %></em>
+  </p>
+  <p>
     <label><%= l(:label_important_header_color) %></label>
     <input type="color" id="color_picker_imp_header" value="<%= value_imp_header %>" oninput="document.getElementById('settings_important_header_color').value = this.value">
     <input type="text" name="settings[important_header_color]" id="settings_important_header_color" 
@@ -50,7 +56,6 @@
             oninput="document.getElementById('color_picker_imp_header').value = this.value">
     <a href="#" class="icon icon-reload" onclick="document.getElementById('settings_important_header_color').value = '<%= default_imp_header %>'; document.getElementById('color_picker_imp_header').value = '<%= default_imp_header %>'; return false;"><%= l(:button_reset_default) %></a>
   </p>
-
   <p>
     <label><%= l(:label_important_bg_color) %></label>
     <input type="color" id="color_picker_imp_bg" value="<%= value_imp_bg %>" oninput="document.getElementById('settings_important_bg_color').value = this.value">
@@ -60,7 +65,6 @@
             oninput="document.getElementById('color_picker_imp_bg').value = this.value">
     <a href="#" class="icon icon-reload" onclick="document.getElementById('settings_important_bg_color').value = '<%= default_imp_bg %>'; document.getElementById('color_picker_imp_bg').value = '<%= default_imp_bg %>'; return false;"><%= l(:button_reset_default) %></a>
   </p>
-
   <p>
     <label><%= l(:label_important_border_color) %></label>
     <input type="color" id="color_picker_imp_border" value="<%= value_imp_border %>" oninput="document.getElementById('settings_important_border_color').value = this.value">
@@ -71,7 +75,6 @@
     <a href="#" class="icon icon-reload" onclick="document.getElementById('settings_important_border_color').value = '<%= default_imp_border %>'; document.getElementById('color_picker_imp_border').value = '<%= default_imp_border %>'; return false;"><%= l(:button_reset_default) %></a>
   </p>
 </div>
-
 <div class="box tabular">
   <h4><%= l(:label_issue_colors_header) %></h4>
   <p>

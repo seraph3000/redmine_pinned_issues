@@ -66,7 +66,7 @@ ja:
 
   field_important_note: 重要
   text_important_added: 登録
-  text_important_unpinned: 解除
+  text_important_removed: 解除
   text_important_note_detail: "%{label} を%{action} (%{target})"
   text_color_format_hint: "#RRGGBB または #RGB 形式で入力してください"
 
@@ -80,3 +80,7 @@ ja:
   label_important_header_color: ヘッダ下ラインの色
   label_important_bg_color: 本文の背景色
   label_important_border_color: 本文左ラインの色
+
+  label_important_note_limit: 1チケットあたりの上限件数
+  text_important_note_limit_description: 0 で無制限。上限に達すると新規の重要登録ができなくなります。
+  error_important_limit_reached: "重要コメントは1チケットあたり %{count} 件までです。"

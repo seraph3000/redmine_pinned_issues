@@ -3,17 +3,20 @@ class PinnedJournalsController < ApplicationController
   before_action :authorize_pin
 
   def toggle
-    existing = PinnedJournal.find_by(journal_id: @journal.id)
-    if existing
-      unpin(existing)
-      @important = false
-    else
-      pin
-      @important = true
+    @issue.with_lock do
+      existing = PinnedJournal.find_by(journal_id: @journal.id)
+      if existing
+        unpin(existing)
+        @important = false
+      elsif pin
+        @important = true
+      else
+        @limit_reached = true
+      end
     end
 
     respond_to do |format|
-      format.js
+      format.js { render(@limit_reached ? :limit_reached : :toggle) }
     end
   end
 
@@ -31,22 +34,37 @@ class PinnedJournalsController < ApplicationController
 
   # 重要登録できるのは、そのコメントを実際に閲覧できて権限を持つ人だけ。
   def authorize_pin
-    # 可視性を先に見ることで、403/404 の差による存在確認オラクルを潰す
     return render_403 unless @journal.visible?(User.current)
     return render_403 unless User.current.allowed_to?(:pin_journals, @project)
-    # UI（journals_helper_patch）は notes ありのみボタンを出すので、サーバ側も揃える
     return render_403 if @journal.notes.blank?
     true
   end
 
+  # 上限に達している場合は false を返して登録しない。
+  # 解除は上限に関わらず常に許可する。
   def pin
-    PinnedJournal.create!(
-      journal_id: @journal.id,
-      issue_id:   @issue.id,
-      project_id: @project.id,
-      user_id:    User.current.id
-    )
+    limit = RedminePinnedIssues.important_note_limit
+    if limit > 0 && PinnedJournal.where(issue_id: @issue.id).count >= limit
+      @limit = limit
+      return false
+    end
+
+    begin
+      PinnedJournal.transaction(requires_new: true) do
+        PinnedJournal.create!(
+          journal_id: @journal.id,
+          issue_id:   @issue.id,
+          project_id: @project.id,
+          user_id:    User.current.id
+        )
+      end
+    rescue ActiveRecord::RecordNotUnique
+      # ロックをすり抜けた二重送信。既に登録済みなので成功扱いにする。
+      return true
+    end
+
     log_history(:add)
+    true
   end
 
   def unpin(record)
@@ -54,6 +72,9 @@ class PinnedJournalsController < ApplicationController
     log_history(:remove)
   end
 
+  # プロパティ更新履歴へ「重要 を登録/解除 (#note-N)」を記録する。
+  # 必須カスタムフィールドが未入力の古いチケットでは save が通らないため、
+  # 履歴記録の失敗は握りつぶす。重要登録/解除そのものは既に確定している。
   def log_history(action)
     journal = @issue.init_journal(User.current)
     journal.details << JournalDetail.new(

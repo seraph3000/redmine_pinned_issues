@@ -6,7 +6,7 @@ module IssuesHelperPatch
     journal = Journal.find_by(id: journal_id)
 
     label  = l(:field_important_note)
-    action = detail.value.present? ? l(:text_important_added) : l(:text_important_unpinned)
+    action = detail.value.present? ? l(:text_important_added) : l(:text_important_removed)
 
     if journal && journal.journalized.is_a?(Issue)
       issue   = journal.journalized
