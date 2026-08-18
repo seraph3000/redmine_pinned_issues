@@ -1,16 +1,3 @@
-window.showIssueHistoryImportant = function(tab, url) {
-  var tab_content = $('#tab-content-history');
-  if (!tab_content.length) return false;
-  tab_content.parent().find('.tab-content').hide();
-  tab_content.show();
-  tab_content.parent().find('div.tabs a').removeClass('selected');
-  $('#tab-important').addClass('selected');
-  if (window.replaceInHistory && url) { replaceInHistory(url); }
-  tab_content.find('.journal').hide();
-  tab_content.find('.journal.important-note-row').show();
-  return false;
-};
-
 (function() {
   'use strict';
 
@@ -58,21 +45,3 @@ window.showIssueHistoryImportant = function(tab, url) {
     document.addEventListener('DOMContentLoaded', restoreImportantTab);
   }
 })();
-
-function showIssueHistoryImportant(tab, url) {
-  var tab_content = $('#tab-content-history');
-  tab_content.parent().find('.tab-content').hide();
-  tab_content.show();
-  tab_content.parent().find('div.tabs a').removeClass('selected');
-  $('#tab-important').addClass('selected');
-  if (window.replaceInHistory && url) { replaceInHistory(url); }
-  tab_content.find('.journal').hide();
-  tab_content.find('.journal.important-note-row').show();
-  return false;
-}
-
-$(function() {
-  if ($('#tab-important').hasClass('selected')) {
-    showIssueHistoryImportant('important', null);
-  }
-});

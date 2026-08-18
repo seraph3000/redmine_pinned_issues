@@ -172,6 +172,10 @@ Expired pins are automatically removed and the issue returns to its normal posit
 
 ## Changelog
 
+v0.4.1 (2026-08-18)
+
+* Removed duplicate definitions of showIssueHistoryImportant.
+
 v0.4.0 (2026-08-12)
 
 * Added the important notes feature.
