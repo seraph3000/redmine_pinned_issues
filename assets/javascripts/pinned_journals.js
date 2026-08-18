@@ -1,6 +1,9 @@
 (function() {
   'use strict';
 
+  // クリック後のインターバル（ミリ秒）。
+  var TOGGLE_INTERVAL = 5000;
+
   // 「重要コメント」タブ：履歴タブの中身を important-note-row だけに絞り込む
   function showIssueHistoryImportant(tab, url) {
     var tab_content = $('#tab-content-history');
@@ -31,12 +34,17 @@
   // issue_history_tabs の onclick から呼ばれるため公開
   window.showIssueHistoryImportant = showIssueHistoryImportant;
 
-  // ?tab=important でリロードされた場合の復元
   function restoreImportantTab() {
     if ($('#tab-important').hasClass('selected')) {
       showIssueHistoryImportant('important', null);
     }
   }
+
+  $(document).on('ajax:send', '.important-toggle', function() {
+    var btn = $(this);
+    btn.addClass('is-sending');
+    setTimeout(function() { btn.removeClass('is-sending'); }, TOGGLE_INTERVAL);
+  });
 
   document.addEventListener('turbo:load', restoreImportantTab);
   if (document.readyState !== 'loading') {

@@ -13,14 +13,22 @@ module RedminePinnedIssues
   }.freeze
   DEFAULT_SETTINGS = DEFAULT_COLORS.merge({
     'enable_issue_colors' => '0',
+    'important_note_limit'  => '0',
   }).freeze
+
+  # 1チケットあたりの重要コメント上限。0 は無制限。
+  def self.important_note_limit
+    (Setting.plugin_redmine_pinned_issues['important_note_limit'] || '0').to_i
+  rescue StandardError
+    0
+  end
 end
 
 Redmine::Plugin.register :redmine_pinned_issues do
   name 'Redmine Pinned Issues plugin'
   author 'seraph3000'
   description 'A plugin to pin issues to the top of the list with an expiration date.'
-  version '0.4.1'
+  version '0.4.2'
   url 'https://github.com/seraph3000/redmine_pinned_issues'
   author_url 'https://github.com/seraph3000'
 

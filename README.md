@@ -172,6 +172,18 @@ Expired pins are automatically removed and the issue returns to its normal posit
 
 ## Changelog
 
+v0.4.2 (2026-08-18)
+
+* Added a per-issue limit for important notes, configurable from the plugin
+  settings page. Defaults to 0 (unlimited).
+* The star button is now disabled for a few seconds after each click,
+  preventing accidental repeated toggles.
+* Toggle requests on the same issue are now serialized, so simultaneous
+  operations from multiple tabs no longer bypass the limit or create
+  duplicate records.
+* Fixed a duplicate submission causing an error under PostgreSQL.
+* Replaced the star icon (fav) with a custom exclamation mark SVG sprite for the important toggle button.
+
 v0.4.1 (2026-08-18)
 
 * Removed duplicate definitions of showIssueHistoryImportant.

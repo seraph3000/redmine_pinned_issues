@@ -24,3 +24,9 @@
 .important-toggle.is-on {
   opacity: 1;
 }
+
+.important-toggle.is-sending {
+  pointer-events: none;
+  opacity: 0.2;
+  cursor: wait;
+}
