@@ -170,6 +170,10 @@ bundle exec rake redmine:pinned_issues:cleanup RAILS_ENV=production
 
 ### 更新履歴
 
+v0.4.1 (2026-08-18)
+
+* showIssueHistoryImportant の重複定義を削除。
+
 v0.4.0 (2026-08-12)
 
 * 重要コメント機能を追加。
